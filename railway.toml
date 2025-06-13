@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install --no-cache-dir -r requirements.txt"
+buildCommand = "apt-get update && apt-get install -y python3-distutils && pip install --no-cache-dir -r requirements.txt"
 
 [deploy]
 startCommand = "gunicorn server:app"
@@ -9,4 +9,10 @@ healthcheckTimeout = 100
 
 [deploy.env]
 PYTHON_VERSION = "3.9"
-PYTHONUNBUFFERED = "1" 
+PYTHONUNBUFFERED = "1"
+
+[[services]]
+name = "chroma-db"
+type = "persistent-disk"
+size = "1GB"
+mountPath = "/app/chroma" 
